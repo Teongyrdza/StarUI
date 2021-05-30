@@ -21,6 +21,11 @@ public struct RoundedButtonStyle: ButtonStyle {
                 .stroke(Color.accentColor, lineWidth: lineWidth)
         }
     }
+    
+    public init(lineWidth: CGFloat, cornerRadius: CGFloat) {
+        self.lineWidth = lineWidth
+        self.cornerRadius = cornerRadius
+    }
 }
 
 #if DEBUG

@@ -58,7 +58,7 @@ struct Ring: InsettableShape {
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public struct CircularProgressViewStyle: ProgressViewStyle {
-    public var thickness: CGFloat = 10
+    public let thickness: CGFloat
     
     public func makeBody(configuration: Configuration) -> some View {
         VStack {
@@ -87,6 +87,10 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
             
             Spacer()
         }
+    }
+    
+    public init(thickness: CGFloat = 10) {
+        self.thickness = thickness
     }
 }
 
