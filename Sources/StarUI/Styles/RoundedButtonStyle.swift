@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  RoundedButtonStyle.swift
 //  
 //
 //  Created by Ostap on 30.05.2021.
