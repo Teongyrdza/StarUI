@@ -22,7 +22,7 @@ public struct RoundedButtonStyle: ButtonStyle {
         }
     }
     
-    public init(lineWidth: CGFloat, cornerRadius: CGFloat) {
+    public init(lineWidth: CGFloat = 10, cornerRadius: CGFloat = 5) {
         self.lineWidth = lineWidth
         self.cornerRadius = cornerRadius
     }
