@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-@available(macOS 11, iOS 13, watchOS 6, tvOS 13, *)
+@available(tvOS, unavailable)
+@available(macOS 11, iOS 13, watchOS 6, *)
 public struct CheckmarkToggleStyle: ToggleStyle {
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
@@ -42,7 +43,8 @@ public struct CheckmarkToggleStyle: ToggleStyle {
     }
 }
 
-@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+@available(tvOS, unavailable)
+@available(macOS 10.15, iOS 13, watchOS 6, *)
 public struct PowerToggleStyle: ToggleStyle {
     public func makeBody(configuration: Configuration) -> some View {
         HStack {
@@ -88,7 +90,8 @@ public struct PowerToggleStyle: ToggleStyle {
     }
 }
 
-@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+@available(tvOS, unavailable)
+@available(macOS 10.15, iOS 13, watchOS 6, *)
 public struct ImageToggleStyle: ToggleStyle {
     public var onImageName: String
     public var offImageName: String
@@ -119,7 +122,8 @@ public struct ImageToggleStyle: ToggleStyle {
     }
 }
 
-@available(macOS 11, iOS 13, watchOS 6, tvOS 13, *)
+@available(tvOS, unavailable)
+@available(macOS 11, iOS 13, watchOS 6, *)
 struct CustomToggles: View {
     @State var isOn = true
     
@@ -146,9 +150,12 @@ struct CustomToggles: View {
     }
 }
 
+#if DEBUG
+@available(tvOS, unavailable)
 @available(macOS 11, iOS 13, watchOS 6, tvOS 13, *)
 struct CustomToggle_Previews: PreviewProvider {
     static var previews: some View {
         CustomToggles()
     }
 }
+#endif

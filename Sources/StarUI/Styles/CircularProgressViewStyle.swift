@@ -95,7 +95,7 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
 }
 
 #if DEBUG
-@available(macOS 11, iOS 14, watchOS 6, tvOS 13, *)
+@available(macOS 11, iOS 14, watchOS 6, tvOS 14, *)
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
         ProgressView("Progress Circle", value: 75, total: 100)
