@@ -36,6 +36,10 @@ public struct CheckmarkToggleStyle: ToggleStyle {
                 .onTapGesture { configuration.isOn.toggle() }
         }
     }
+    
+    public init() {
+        
+    }
 }
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -78,6 +82,10 @@ public struct PowerToggleStyle: ToggleStyle {
                 .onTapGesture { configuration.isOn.toggle() }
         }
     }
+    
+    public init() {
+        
+    }
 }
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
@@ -103,6 +111,11 @@ public struct ImageToggleStyle: ToggleStyle {
                 .cornerRadius(20)
                 .onTapGesture { configuration.isOn.toggle() }
         }
+    }
+    
+    public init(onImageName: String, offImageName: String) {
+        self.onImageName = onImageName
+        self.offImageName = offImageName
     }
 }
 

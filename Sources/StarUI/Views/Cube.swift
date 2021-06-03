@@ -13,8 +13,17 @@ public struct Cube: View {
     
     public var body: some View {
         Square().frame(height: size)
-            .modifier(ExtrudedModifier(depth: size, texture: Square().frame(height: size)))
+            .modifier(
+                ExtrudedModifier(
+                    depth: size,
+                    texture: Square().frame(height: size)
+                )
+            )
             .modifier(IsometricViewModifier())
+    }
+    
+    public init(size: CGFloat) {
+        self.size = size
     }
 }
 

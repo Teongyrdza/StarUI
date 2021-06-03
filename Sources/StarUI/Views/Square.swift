@@ -17,6 +17,10 @@ public struct Square: Shape {
         
         return path
     }
+    
+    public init() {
+        
+    }
 }
 
 #if DEBUG

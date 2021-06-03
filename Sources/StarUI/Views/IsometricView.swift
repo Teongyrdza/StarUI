@@ -7,11 +7,14 @@ public struct IsometricViewModifier: ViewModifier {
             .rotationEffect(Angle(degrees: 45), anchor: .center)
             .scaleEffect(x: 1.0, y: 0.5, anchor: .center)
     }
+    
+    public init() {
+        
+    }
 }
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public struct ExtrudedModifier<Texture: View> : ViewModifier {
-    
     public var depth: CGFloat
     public var texture: Texture
     
@@ -58,5 +61,10 @@ public struct ExtrudedModifier<Texture: View> : ViewModifier {
             }
         ,
         alignment: .center)
+    }
+    
+    public init(depth: CGFloat, texture: Texture) {
+        self.depth = depth
+        self.texture = texture
     }
 }
