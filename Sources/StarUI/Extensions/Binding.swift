@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension Binding where Value: Equatable {
     func replacingNilWith<T>(_ nilValue: T) -> Binding<T> where Value == Optional<T> {
         .init(self.projectedValue, replacingNilWith: nilValue)
@@ -26,7 +27,8 @@ public extension Binding where Value: Equatable {
         )
     }
 }
-    
+
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension Binding {
     init(_ source: Binding<Value?>, _ defaultValue: Value) {
         // Ensure a non-nil value in `source`.
