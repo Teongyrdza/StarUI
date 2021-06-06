@@ -15,11 +15,11 @@ public struct RoundedButtonStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         ZStack {
             configuration.label
-                .foregroundColor(.accentColor)
             
             RoundedRectangle(cornerRadius: cornerRadius)
-                .stroke(Color.accentColor, lineWidth: lineWidth)
+                .stroke(lineWidth: lineWidth)
         }
+        .foregroundColor(.accentColor)
     }
     
     public init(lineWidth: CGFloat = 10, cornerRadius: CGFloat = 5) {
