@@ -45,7 +45,7 @@ extension VisualEffect {
     }
 
     var blendingMode: NSVisualEffectView.BlendingMode {
-        .behindWindow
+        .withinWindow
     }
 
     var parameters: NSEffectParameters {
