@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-public struct RoundedButtonStyle: ButtonStyle {
+public struct RoundedCornersButtonStyle: ButtonStyle {
     public let lineWidth: CGFloat
     public let cornerRadius: CGFloat
     
@@ -33,7 +33,7 @@ public struct RoundedButtonStyle: ButtonStyle {
 struct RoundedButtonStyle_Previews: PreviewProvider {
     static var previews: some View {
         Button("Press Me", action: {})
-            .buttonStyle(RoundedButtonStyle(lineWidth: 5, cornerRadius: 10))
+            .buttonStyle(RoundedCornersButtonStyle(lineWidth: 5, cornerRadius: 10))
             .accentColor(.purple)
             .frame(width: 75, height: 50)
     }
