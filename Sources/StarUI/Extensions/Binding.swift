@@ -9,7 +9,7 @@ import SwiftUI
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension Binding where Value: Equatable {
-    func replacingNilWith<T>(_ nilValue: T) -> Binding<T> where Value == Optional<T> {
+    func replacingNilWith<T>(_ nilValue: T) -> Binding<T> where Value == T? {
         .init(self.projectedValue, replacingNilWith: nilValue)
     }
     
@@ -35,8 +35,17 @@ public extension Binding {
         if source.wrappedValue == nil {
             source.wrappedValue = defaultValue
         }
-        // Unsafe unwrap because *we* know it's non-nil now.
+        // Unsafe unwrap because we know it's non-nil now.
         self.init(source)!
     }
 }
 
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+public extension Binding {
+    func forceUnrapped<T>() -> Binding<T> where Value == T? {
+        .init(
+            get: { wrappedValue! },
+            set: { wrappedValue = $0 }
+        )
+    }
+}
