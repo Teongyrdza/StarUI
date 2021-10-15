@@ -42,7 +42,7 @@ public extension Binding {
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension Binding {
-    func forceUnrapped<T>() -> Binding<T> where Value == T? {
+    func forceUnwrapped<T>() -> Binding<T> where Value == T? {
         .init(
             get: { wrappedValue! },
             set: { wrappedValue = $0 }
