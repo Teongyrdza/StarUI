@@ -56,7 +56,7 @@ struct Ring: InsettableShape {
     }
 }
 
-@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+@available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
 public struct CircularProgressViewStyle: ProgressViewStyle {
     public static let defaultThickness: CGFloat = 10
     
@@ -96,7 +96,7 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
     }
 }
 
-@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+@available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
 public extension ProgressViewStyle where Self == CircularProgressViewStyle {
     static func circular(thickness: CGFloat = Self.defaultThickness) -> Self {
         .init(thickness: thickness)
@@ -108,7 +108,7 @@ public extension ProgressViewStyle where Self == CircularProgressViewStyle {
 }
 
 #if DEBUG
-@available(macOS 11, iOS 14, watchOS 6, tvOS 14, *)
+@available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
         ProgressView("Progress Circle", value: 75, total: 100)
