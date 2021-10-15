@@ -58,6 +58,8 @@ struct Ring: InsettableShape {
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public struct CircularProgressViewStyle: ProgressViewStyle {
+    public static let defaultThickness: CGFloat = 10
+    
     public let thickness: CGFloat
     
     public func makeBody(configuration: Configuration) -> some View {
@@ -89,8 +91,19 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
         }
     }
     
-    public init(thickness: CGFloat = 10) {
+    public init(thickness: CGFloat = defaultThickness) {
         self.thickness = thickness
+    }
+}
+
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+public extension ProgressViewStyle where Self == CircularProgressViewStyle {
+    static func circular(thickness: CGFloat = Self.defaultThickness) -> Self {
+        .init(thickness: thickness)
+    }
+    
+    static var circular: Self {
+        circular()
     }
 }
 
@@ -99,7 +112,7 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
         ProgressView("Progress Circle", value: 75, total: 100)
-            .progressViewStyle(CircularProgressViewStyle(thickness: 30))
+            .progressViewStyle(.circular(thickness: 30))
             .padding()
     }
 }
