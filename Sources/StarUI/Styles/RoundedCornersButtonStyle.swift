@@ -39,6 +39,10 @@ public extension ButtonStyle where Self == RoundedCornersButtonStyle {
     ) -> Self {
         .init(lineWidth: lineWidth, cornerRadius: cornerRadius)
     }
+    
+    static var roundedCorners: Self {
+        roundedCorners()
+    }
 }
 
 #if DEBUG
