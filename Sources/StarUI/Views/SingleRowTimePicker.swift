@@ -13,16 +13,17 @@ import SwiftUI
 public struct SingleRowTimePicker: View {
     @Binding private var selection: TimeInterval
     private let range: Range<Int>
+    private let timeFormatter: (Int) -> String
     
-    private func metric(forSeconds seconds: Int) -> String {
+    static func metric(forSeconds seconds: Int) -> String {
         return seconds == 1 ? "second" : "seconds"
     }
     
-    private func metric(forMinutes minutes: Int) -> String {
+    static func metric(forMinutes minutes: Int) -> String {
         return minutes == 1 ? "minute" : "minutes"
     }
     
-    private func label(for time: Int) -> String {
+    static func label(for time: Int) -> String {
         if time < 60 {
             return "\(time) \(metric(forSeconds: time))"
         }
@@ -40,14 +41,34 @@ public struct SingleRowTimePicker: View {
     public var body: some View {
         Picker("", selection: $selection) {
             ForEach(range) { time in
-                Text(label(for: time)).tag(TimeInterval(time))
+                Text(timeFormatter(time))
+                    .tag(TimeInterval(time))
             }
         }
     }
     
     public init(selection: Binding<TimeInterval>, in range: Range<Int>) {
+        self.init(selection: selection, in: range, timeFormatter: Self.label(for:))
+    }
+    
+    public init(
+        selection: Binding<TimeInterval>,
+        in range: Range<Int>,
+        timeFormatter: @escaping (Int) -> String
+    ) {
         self._selection = selection
         self.range = range
+        self.timeFormatter = timeFormatter
+    }
+    
+    public init(
+        selection: Binding<TimeInterval>,
+        in range: Range<Int>,
+        timeFormatter: @escaping (TimeInterval) -> String
+    ) {
+        self.init(selection: selection, in: range) { (time: Int) in
+            timeFormatter(TimeInterval(time))
+        }
     }
 }
 
@@ -58,6 +79,7 @@ struct SingleRowTimePicker_Previews: PreviewProvider {
     
     static var previews: some View {
         SingleRowTimePicker(selection: $selection, in: 1..<181)
+            .pickerStyle(.wheel)
     }
 }
 #endif
