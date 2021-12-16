@@ -36,7 +36,10 @@ struct RoundedButton: View {
                         RoundedRectangle(cornerRadius: cornerRadius)
                             .stroke(lineWidth: lineWidth)
                             .position(x: label.midX, y: label.midY)
-                            .frame(width: label.width + 20, height: label.height + 20)
+                            .frame(
+                                width: label.width + 20 + cornerRadius,
+                                height: label.height + 20 + cornerRadius
+                            )
                     }
                 }
                 .foregroundColor(.accentColor)
