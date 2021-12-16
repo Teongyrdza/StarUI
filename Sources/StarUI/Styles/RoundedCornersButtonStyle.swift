@@ -18,31 +18,13 @@ struct BoundsPreferenceKey: PreferenceKey {
     }
 }
 
-@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-struct RoundedButton: View {
-    let lineWidth: CGFloat
-    let cornerRadius: CGFloat
-    let configuration: ButtonStyleConfiguration
+public struct RoundedButtonInsets {
+    public var horizontal: CGFloat
+    public var vertical: CGFloat
     
-    var body: some View {
-            configuration.label
-                .anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) {
-                    $0
-                }
-                .backgroundPreferenceValue(BoundsPreferenceKey.self) { bounds in
-                    GeometryReader { geo in
-                        let label = geo[bounds!]
-                        
-                        RoundedRectangle(cornerRadius: cornerRadius)
-                            .stroke(lineWidth: lineWidth)
-                            .position(x: label.midX, y: label.midY)
-                            .frame(
-                                width: label.width + 20 + cornerRadius,
-                                height: label.height + 20 + cornerRadius
-                            )
-                    }
-                }
-                .foregroundColor(.accentColor)
+    public init(horizontal: CGFloat = 30, vertical: CGFloat = 20) {
+        self.horizontal = horizontal
+        self.vertical = vertical
     }
 }
 
@@ -53,14 +35,37 @@ public struct RoundedCornersButtonStyle: ButtonStyle {
     
     public let lineWidth: CGFloat
     public let cornerRadius: CGFloat
+    public let insets: RoundedButtonInsets
     
     public func makeBody(configuration: Configuration) -> some View {
-        RoundedButton(lineWidth: lineWidth, cornerRadius: cornerRadius, configuration: configuration)
+        configuration.label
+            .anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) {
+                $0
+            }
+            .backgroundPreferenceValue(BoundsPreferenceKey.self) { bounds in
+                GeometryReader { geo in
+                    let label = geo[bounds!]
+                    
+                    RoundedRectangle(cornerRadius: cornerRadius)
+                        .stroke(lineWidth: lineWidth)
+                        .position(x: label.midX, y: label.midY)
+                        .frame(
+                            width: label.width + insets.horizontal + cornerRadius,
+                            height: label.height + insets.vertical  + cornerRadius
+                        )
+                }
+            }
+            .foregroundColor(.accentColor)
     }
     
-    public init(lineWidth: CGFloat = defaultLineWidth, cornerRadius: CGFloat = defaultCornerRadius) {
+    public init(
+        lineWidth: CGFloat = defaultLineWidth,
+        cornerRadius: CGFloat = defaultCornerRadius,
+        insets: RoundedButtonInsets = .init()
+    ) {
         self.lineWidth = lineWidth
         self.cornerRadius = cornerRadius
+        self.insets = insets
     }
 }
 
@@ -68,9 +73,10 @@ public struct RoundedCornersButtonStyle: ButtonStyle {
 public extension ButtonStyle where Self == RoundedCornersButtonStyle {
     static func roundedCorners(
         lineWidth: CGFloat = Self.defaultLineWidth,
-        cornerRadius: CGFloat = Self.defaultCornerRadius
+        cornerRadius: CGFloat = Self.defaultCornerRadius,
+        insets: RoundedButtonInsets = .init()
     ) -> Self {
-        .init(lineWidth: lineWidth, cornerRadius: cornerRadius)
+        .init(lineWidth: lineWidth, cornerRadius: cornerRadius, insets: insets)
     }
     
     static var roundedCorners: Self {
@@ -89,7 +95,7 @@ struct RoundedButtonStyle_Previews: PreviewProvider {
                 .padding(.bottom, 50)
             
             Button("No, me!", action: {})
-                .buttonStyle(.roundedCorners)
+                .buttonStyle(.roundedCorners(insets: .init(horizontal: 50, vertical: 35)))
                 .accentColor(.yellow)
         }
     }
