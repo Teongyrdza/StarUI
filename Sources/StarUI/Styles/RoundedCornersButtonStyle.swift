@@ -9,12 +9,49 @@ import SwiftUI
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 struct BoundsPreferenceKey: PreferenceKey {
-    typealias Value = Anchor<CGRect>?
+    typealias Value = CGRect
     
-    static let defaultValue: Value = nil
+    static let defaultValue: Value = .zero
     
-    static func reduce(value: inout Anchor<CGRect>?, nextValue: () -> Anchor<CGRect>?) {
+    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
         value = nextValue()
+    }
+}
+
+@available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+struct RoundedButton: View {
+    @State var labelBounds = CGRect.zero
+    
+    let configuration: ButtonStyleConfiguration
+    let lineWidth: CGFloat
+    let cornerRadius: CGFloat
+    let insets: RoundedButtonInsets
+    
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: cornerRadius)
+                .stroke(lineWidth: lineWidth)
+                .frame(
+                    width: labelBounds.width + insets.horizontal,
+                    height: labelBounds.height + insets.vertical
+                )
+            
+            configuration.label
+                .background(
+                    GeometryReader { geo in
+                        Color.clear
+                            .preference(
+                                key: BoundsPreferenceKey.self,
+                                value: geo.frame(in: .named("zStack"))
+                            )
+                    }
+                )
+        }
+        .foregroundColor(.accentColor)
+        .coordinateSpace(name: "zStack")
+        .onPreferenceChange(BoundsPreferenceKey.self) { bounds in
+            labelBounds = bounds
+        }
     }
 }
 
@@ -22,7 +59,7 @@ public struct RoundedButtonInsets {
     public var horizontal: CGFloat
     public var vertical: CGFloat
     
-    public init(horizontal: CGFloat = 30, vertical: CGFloat = 20) {
+    public init(horizontal: CGFloat = 30, vertical: CGFloat = 25) {
         self.horizontal = horizontal
         self.vertical = vertical
     }
@@ -38,24 +75,12 @@ public struct RoundedCornersButtonStyle: ButtonStyle {
     public let insets: RoundedButtonInsets
     
     public func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .anchorPreference(key: BoundsPreferenceKey.self, value: .bounds) {
-                $0
-            }
-            .backgroundPreferenceValue(BoundsPreferenceKey.self) { bounds in
-                GeometryReader { geo in
-                    let label = geo[bounds!]
-                    
-                    RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(lineWidth: lineWidth)
-                        .position(x: label.midX, y: label.midY)
-                        .frame(
-                            width: label.width + insets.horizontal + cornerRadius,
-                            height: label.height + insets.vertical  + cornerRadius
-                        )
-                }
-            }
-            .foregroundColor(.accentColor)
+        RoundedButton(
+            configuration: configuration,
+            lineWidth: lineWidth,
+            cornerRadius: cornerRadius,
+            insets: insets
+        )
     }
     
     public init(
