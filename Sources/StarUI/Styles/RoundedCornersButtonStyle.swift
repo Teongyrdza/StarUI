@@ -8,19 +8,19 @@
 import SwiftUI
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-struct BoundsPreferenceKey: PreferenceKey {
-    typealias Value = CGRect
+struct SizePreferenceKey: PreferenceKey {
+    typealias Value = CGSize
     
     static let defaultValue: Value = .zero
     
-    static func reduce(value: inout CGRect, nextValue: () -> CGRect) {
+    static func reduce(value: inout Value, nextValue: () -> Value) {
         value = nextValue()
     }
 }
 
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 struct RoundedButton: View {
-    @State var labelBounds = CGRect.zero
+    @State var labelSize = CGSize.zero
     
     let configuration: ButtonStyleConfiguration
     let lineWidth: CGFloat
@@ -32,25 +32,22 @@ struct RoundedButton: View {
             RoundedRectangle(cornerRadius: cornerRadius)
                 .stroke(lineWidth: lineWidth)
                 .frame(
-                    width: labelBounds.width + insets.horizontal,
-                    height: labelBounds.height + insets.vertical
+                    width: labelSize.width + insets.horizontal,
+                    height: labelSize.height + insets.vertical
                 )
             
             configuration.label
                 .background(
                     GeometryReader { geo in
                         Color.clear
-                            .preference(
-                                key: BoundsPreferenceKey.self,
-                                value: geo.frame(in: .named("zStack"))
-                            )
+                            .preference(key: SizePreferenceKey.self, value: geo.size)
                     }
                 )
         }
         .foregroundColor(.accentColor)
         .coordinateSpace(name: "zStack")
-        .onPreferenceChange(BoundsPreferenceKey.self) { bounds in
-            labelBounds = bounds
+        .onPreferenceChange(SizePreferenceKey.self) { size in
+            labelSize = size
         }
     }
 }
