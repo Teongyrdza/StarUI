@@ -64,7 +64,9 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
     
     public func makeBody(configuration: Configuration) -> some View {
         VStack {
-            Spacer()
+            if configuration.label != nil {
+                Spacer()
+            }
             
             configuration.label
             
@@ -80,14 +82,14 @@ public struct CircularProgressViewStyle: ProgressViewStyle {
                 // Progress ring
                 Ring(startAngle: .degrees(0), endAngle: .degrees(360 * (configuration.fractionCompleted ?? 0)), clockwise: false, thickness: thickness)
                     .strokeBorder(
-                        Color.accentColor,
                         style: .init(lineWidth: thickness, lineCap: .round, lineJoin: .round),
                         antialiased: true
                     )
             }
             
-            
-            Spacer()
+            if configuration.label != nil {
+                Spacer()
+            }
         }
     }
     
@@ -108,12 +110,20 @@ public extension ProgressViewStyle where Self == CircularProgressViewStyle {
 }
 
 #if DEBUG
-@available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)
+@available(macOS 12, iOS 15, watchOS 8, tvOS 15, *)
 struct ProgressCircle_Previews: PreviewProvider {
     static var previews: some View {
         ProgressView("Progress Circle", value: 75, total: 100)
             .progressViewStyle(.circular(thickness: 30))
             .padding()
+            .foregroundStyle(
+                .angularGradient(
+                    colors: [.red, .orange, .yellow],
+                    center: .center,
+                    startAngle: .degrees(260),
+                    endAngle: .degrees(-90)
+                )
+            )
     }
 }
 #endif
