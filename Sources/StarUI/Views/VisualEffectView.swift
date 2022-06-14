@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  VisualEffectView.swift
 //  
 //
 //  Created by Ostap on 03.06.2021.
